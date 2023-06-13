@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "first-time-contribution-tagger"
+version = "0.1.0"
+description = ""
+authors = ["Janik H. <janik@aq0.de>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.31.0"
+loguru = "^0.7.0"
+
+[tool.poetry.scripts]
+first-time-contribution-tagger = 'first_time_contribution_tagger:main'
+
+[tool.black]
+line_length = 120
+
+[tool.isort]
+line_length = 120
+profile = "black"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
