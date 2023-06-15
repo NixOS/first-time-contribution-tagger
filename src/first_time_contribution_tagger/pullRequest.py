@@ -104,6 +104,7 @@ class PullRequest:
                     new_pr = filterd_output.number
                     new_prs.append(filterd_output)
                 page = f"after: \"{req.json()['data']['repository']['pullRequests']['pageInfo']['endCursor']}\""
+                print(f"getting new prs: {new_pr}")
             else:
                 return new_prs[::-1]
         return new_prs[::-1]

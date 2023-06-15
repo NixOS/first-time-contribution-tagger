@@ -6,12 +6,22 @@ from first_time_contribution_tagger.pullRequest import PullRequest
 
 class Settings:
     def __init__(self) -> None:
-        self.cache = os.environ["FIRST_TIME_CONTRIBUTION_CACHE"]
+        self.githubToken = os.getenv("FIRST_TIME_CONTRIBUTION_GITHUB_TOKEN")
+        if self.githubToken is None:
+            exit("ERROR: githubToken not set. Please set the FIRST_TIME_CONTRIBUTION_GITHUB_TOKEN env var")
+        self.org = os.getenv("FIRST_TIME_CONTRIBUTION_ORG")
+        if self.org is None:
+            exit("ERROR: org not set. Please set the FIRST_TIME_CONTRIBUTION_GITHUB_ORG env var")
+        self.repo = os.getenv("FIRST_TIME_CONTRIBUTION_REPO")
+        if self.repo is None:
+            exit("ERROR: repo not set. Please set the FIRST_TIME_CONTRIBUTION_GITHUB_REPO env var")
+        self.label = os.getenv("FIRST_TIME_CONTRIBUTION_LABEL")
+        if self.label is None:
+            exit("ERROR: label not set. Please set the FIRST_TIME_CONTRIBUTION_GITHUB_LABEL env var")
+        self.cache = os.getenv("FIRST_TIME_CONTRIBUTION_CACHE")
+        if self.cache is None:
+            print("WARNING: Caching is disabled. To use a cache set the FIRST_TIME_CONTRIBUTION_CACHE env var")
         # self.logLevel = os.environ["FIRST_TIME_CONTRIBUTION_LOG_LEVEL"]
-        self.githubToken = os.environ["FIRST_TIME_CONTRIBUTION_GITHUB_TOKEN"]
-        self.org = os.environ["FIRST_TIME_CONTRIBUTION_ORG"]
-        self.repo = os.environ["FIRST_TIME_CONTRIBUTION_REPO"]
-        self.label = os.environ["FIRST_TIME_CONTRIBUTION_LABEL"]
 
 
 class FirstTimeContributionTagger:
@@ -87,12 +97,14 @@ class FirstTimeContributionTagger:
 def main():
     settings = Settings()
     ftc = FirstTimeContributionTagger(settings)
-    ftc.loadCache()
+    if settings.cache is not None:
+        ftc.loadCache()
     ftc.prs += PullRequest.getNewPRs(
         latest_pr=ftc.latestPr, githubToken=settings.githubToken, org=settings.org, repo=settings.repo
     )
     ftc.addToNewPRs(settings.org, settings.repo, settings.label, settings.githubToken)
-    ftc.saveCache()
+    if settings.cache is not None:
+        ftc.saveCache()
 
 
 if __name__ == "__main__":
