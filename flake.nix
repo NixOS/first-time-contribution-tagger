@@ -34,7 +34,6 @@
           devShell = pkgs.mkShell {
             inherit (self.checks.${system}.pre-commit-check) shellHook;
             buildInputs = with pkgs; [
-              python3Packages.types-pyyaml
               (pkgs.poetry2nix.mkPoetryEnv {
                 projectDir = ./.;
 

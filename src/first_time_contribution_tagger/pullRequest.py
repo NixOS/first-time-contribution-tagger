@@ -2,8 +2,6 @@ from typing import Any
 
 import requests
 
-# from loguru import logger
-
 
 class PullRequest:
     def __init__(self, number: int, author: str | None, labels: list[str]) -> None:
