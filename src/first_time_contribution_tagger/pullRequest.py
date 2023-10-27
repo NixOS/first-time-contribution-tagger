@@ -29,13 +29,6 @@ class PullRequest:
         url = "https://api.github.com/graphql"
         header = {"Authorization": f"Bearer {githubToken}"}
         req = requests.post(url, headers=header, json={"query": body})
-        # ToDO: Add logign
-        # req.status_code
-        # req.json()
-        # print(
-        # f"status: {req.status_code}, number: {req.json()['data']['repository']['pullRequests']['nodes'][0]['
-        # number']}, page:{req.json()['data']['repository']['pullRequests']['pageInfo']['endCursor']}"
-        # )
         return req
 
     @classmethod
@@ -123,9 +116,6 @@ class PullRequest:
             for _label in req.json():
                 labels.append(_label["name"])
             pr.labels = labels
-            # ToDO: Add logign
-            # req.status_code
-            # req.json()
             print(f"pr_number: {pr.number}, label added")
         else:
             print(f"pr_number: {pr.number}, no label added")

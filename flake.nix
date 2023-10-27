@@ -23,7 +23,6 @@
                 nixpkgs-fmt.enable = true;
                 isort.enable = true;
                 black.enable = true;
-                #autoflake.enable = true;
                 flake8.enable = true;
               };
             };
@@ -33,7 +32,7 @@
           };
           devShell = pkgs.mkShell {
             inherit (self.checks.${system}.pre-commit-check) shellHook;
-            buildInputs = with pkgs; [
+            buildInputs = [
               (pkgs.poetry2nix.mkPoetryEnv {
                 projectDir = ./.;
 
