@@ -4,11 +4,18 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
+
     poetry2nix.url = "github:nix-community/poetry2nix";
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+    poetry2nix.inputs.nixpkgs.follows = "nixpkgs";
+    poetry2nix.inputs.flake-utils.follows = "flake-utils";
+
+    pre-commit.url = "github:cachix/pre-commit-hooks.nix";
+    pre-commit.inputs.nixpkgs.follows = "nixpkgs";
+    pre-commit.inputs.nixpkgs-stable.follows = "";
+    pre-commit.inputs.flake-utils.follows = "flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils, poetry2nix, pre-commit-hooks, ... }:
+  outputs = { self, nixpkgs, flake-utils, poetry2nix, pre-commit, ... }:
     flake-utils.lib.eachDefaultSystem
       (
         system:
@@ -17,7 +24,7 @@
         in
         {
           checks = {
-            pre-commit-check = pre-commit-hooks.lib.${system}.run {
+            pre-commit-check = pre-commit.lib.${system}.run {
               src = ./.;
               hooks = {
                 nixpkgs-fmt.enable = true;
