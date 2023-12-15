@@ -21,7 +21,6 @@ class Settings:
         self.cache = os.getenv("FIRST_TIME_CONTRIBUTION_CACHE")
         if self.cache is None:
             print("WARNING: Caching is disabled. To use a cache set the FIRST_TIME_CONTRIBUTION_CACHE env var")
-        # self.logLevel = os.environ["FIRST_TIME_CONTRIBUTION_LOG_LEVEL"]
 
 
 class FirstTimeContributionTagger:
@@ -33,33 +32,26 @@ class FirstTimeContributionTagger:
 
     def loadCache(self):
         if os.path.isdir(self.settings.cache):
-            # Load chached PRs
             cached_prs = f"{self.settings.cache}/prs.pickle"
             if os.path.isfile(cached_prs):
                 with open(cached_prs, "rb") as file:
                     self.prs: list[PullRequest] = pickle.load(file)
                 self.latestPr = self.prs[-1].number
-                # ToDo convert to loggin
                 print("DEBUG: cached prs loaded successfully")
             else:
-                # ToDo convert to loggin
                 print("DEBUG: no cached prs loaded, file not found")
             # Load chached authors
             cached_authors = f"{self.settings.cache}/authors.pickle"
             if os.path.isfile(cached_authors):
                 with open(cached_authors, "rb") as file:
                     self.knownAuthors: list[str] = pickle.load(file)
-                # ToDo convert to loggin
                 print("DEBUG: cached authors loaded successfully")
             else:
-                # ToDo convert to loggin
                 print("DEBUG: no cached authors loaded, file not found")
         else:
-            # ToDo convert to loggin
             print("DEBUG: no cache loaded, folder not found")
 
     def saveCache(self):
-        # ToDo add logging
         if not os.path.exists(self.settings.cache):
             os.makedirs(self.settings.cache)
         # Save PRs

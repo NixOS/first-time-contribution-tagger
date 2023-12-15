@@ -4,43 +4,59 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    poetry2nix.url = "github:nix-community/poetry2nix";
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+
+    pre-commit.url = "github:cachix/pre-commit-hooks.nix";
+    pre-commit.inputs.nixpkgs.follows = "nixpkgs";
+    pre-commit.inputs.nixpkgs-stable.follows = "";
+    pre-commit.inputs.flake-utils.follows = "flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils, poetry2nix, pre-commit-hooks, ... }:
+  outputs = { self, nixpkgs, flake-utils, pre-commit, ... }:
     flake-utils.lib.eachDefaultSystem
       (
         system:
         let
-          pkgs = import nixpkgs { inherit system; overlays = [ poetry2nix.overlay ]; };
+          pkgs = import nixpkgs { inherit system; };
         in
         {
           checks = {
-            pre-commit-check = pre-commit-hooks.lib.${system}.run {
+            pre-commit-check = pre-commit.lib.${system}.run {
               src = ./.;
               hooks = {
                 nixpkgs-fmt.enable = true;
                 isort.enable = true;
                 black.enable = true;
-                #autoflake.enable = true;
                 flake8.enable = true;
               };
             };
           };
-          defaultPackage = pkgs.poetry2nix.mkPoetryApplication {
-            projectDir = ./.;
+          defaultPackage = with pkgs.python3Packages; pkgs.python3.pkgs.buildPythonApplication {
+            pname = "first-time-contribution-tagger";
+            version = "0.1.1";
+            pyproject = true;
+
+            src = ./.;
+
+            nativeBuildInputs = [
+              poetry-core
+            ];
+
+            propagatedBuildInputs = [
+              requests
+            ];
+
+            nativeCheckInputs = [
+              pytestCheckHook
+            ];
+            meta = with pkgs.lib; {
+              license = licenses.agpl3Only;
+              maintainers = with maintainers; [ janik ];
+            };
           };
           devShell = pkgs.mkShell {
             inherit (self.checks.${system}.pre-commit-check) shellHook;
             buildInputs = with pkgs; [
-              (pkgs.poetry2nix.mkPoetryEnv {
-                projectDir = ./.;
-
-                editablePackageSources = {
-                  my-app = ./src;
-                };
-              })
+              python3.pkgs.requests
             ];
           };
         }

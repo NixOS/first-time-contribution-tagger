@@ -12,12 +12,20 @@ requests = "^2.31.0"
 [tool.poetry.scripts]
 first-time-contribution-tagger = 'first_time_contribution_tagger:main'
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+
 [tool.black]
 line_length = 120
 
 [tool.isort]
 line_length = 120
 profile = "black"
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
 
 [build-system]
 requires = ["poetry-core"]
