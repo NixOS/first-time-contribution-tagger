@@ -13,7 +13,7 @@ requests = "^2.31.0"
 first-time-contribution-tagger = 'first_time_contribution_tagger:main'
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^7.4.3"
+pytest = "^7.4.4"
 
 [tool.black]
 line_length = 120
