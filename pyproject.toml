@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-requests = "^2.32.3"
+requests = "^2.31.0"
 
 [tool.poetry.scripts]
 first-time-contribution-tagger = 'first_time_contribution_tagger:main'
