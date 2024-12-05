@@ -25,9 +25,12 @@
     }:
     flake-utils.lib.eachDefaultSystem (
       system:
+
       let
-        pkgs = import nixpkgs { inherit system; };
+        pkgs = nixpkgs.legacyPackages.${system};
+        inherit (pkgs) python3Packages;
       in
+
       {
         checks = {
           pre-commit-check = pre-commit.lib.${system}.run {
@@ -40,9 +43,11 @@
             };
           };
         };
-        defaultPackage =
-          with pkgs.python3Packages;
-          pkgs.python3.pkgs.buildPythonApplication {
+
+        packages = {
+          default = self.packages.${system}.first-time-contribution-tagger;
+
+          first-time-contribution-tagger = python3Packages.buildPythonApplication {
             pname = "first-time-contribution-tagger";
             version = "0.1.1";
             pyproject = true;
@@ -50,32 +55,39 @@
             src = ./.;
 
             nativeBuildInputs = [
-              poetry-core
+              python3Packages.poetry-core
             ];
 
             propagatedBuildInputs = [
-              requests
+              python3Packages.requests
             ];
 
             nativeCheckInputs = [
-              pytestCheckHook
+              python3Packages.pytestCheckHook
             ];
+
             meta = with pkgs.lib; {
               license = licenses.agpl3Only;
               maintainers = with maintainers; [ janik ];
             };
           };
-        devShell = pkgs.mkShell {
+        };
+
+        devShells.default = pkgs.mkShell {
           inherit (self.checks.${system}.pre-commit-check) shellHook;
           buildInputs = with pkgs; [
             python3.pkgs.requests
           ];
         };
+
         formatter = pkgs.nixfmt-rfc-style;
       }
     )
     // {
-      nixosModule =
+      # TODO: Remove when NixOS/infra no longer uses it
+      nixosModule = self.nixosModules.default;
+
+      nixosModules.default =
         {
           config,
           lib,
