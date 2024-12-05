@@ -23,10 +23,10 @@
             pre-commit-check = pre-commit.lib.${system}.run {
               src = ./.;
               hooks = {
-                nixpkgs-fmt.enable = true;
-                isort.enable = true;
                 black.enable = true;
                 flake8.enable = true;
+                isort.enable = true;
+                nixfmt-rfc-style.enable = true;
               };
             };
           };
@@ -59,6 +59,7 @@
               python3.pkgs.requests
             ];
           };
+          formatter = pkgs.nixfmt-rfc-style;
         }
       ) // {
       nixosModule = { config, lib, pkgs, ... }:
