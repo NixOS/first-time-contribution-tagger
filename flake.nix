@@ -5,10 +5,14 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-utils.url = "github:numtide/flake-utils";
 
-    pre-commit.url = "github:cachix/pre-commit-hooks.nix";
-    pre-commit.inputs.nixpkgs.follows = "nixpkgs";
-    pre-commit.inputs.nixpkgs-stable.follows = "";
-    pre-commit.inputs.flake-utils.follows = "flake-utils";
+    pre-commit = {
+      url = "github:cachix/git-hooks.nix";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        nixpkgs-stable.follows = "";
+        flake-compat.follows = "";
+      };
+    };
   };
 
   outputs =
