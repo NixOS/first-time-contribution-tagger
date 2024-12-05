@@ -11,26 +11,34 @@
     pre-commit.inputs.flake-utils.follows = "flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils, pre-commit, ... }:
-    flake-utils.lib.eachDefaultSystem
-      (
-        system:
-        let
-          pkgs = import nixpkgs { inherit system; };
-        in
-        {
-          checks = {
-            pre-commit-check = pre-commit.lib.${system}.run {
-              src = ./.;
-              hooks = {
-                black.enable = true;
-                flake8.enable = true;
-                isort.enable = true;
-                nixfmt-rfc-style.enable = true;
-              };
+  outputs =
+    {
+      self,
+      nixpkgs,
+      flake-utils,
+      pre-commit,
+      ...
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        checks = {
+          pre-commit-check = pre-commit.lib.${system}.run {
+            src = ./.;
+            hooks = {
+              black.enable = true;
+              flake8.enable = true;
+              isort.enable = true;
+              nixfmt-rfc-style.enable = true;
             };
           };
-          defaultPackage = with pkgs.python3Packages; pkgs.python3.pkgs.buildPythonApplication {
+        };
+        defaultPackage =
+          with pkgs.python3Packages;
+          pkgs.python3.pkgs.buildPythonApplication {
             pname = "first-time-contribution-tagger";
             version = "0.1.1";
             pyproject = true;
@@ -53,18 +61,27 @@
               maintainers = with maintainers; [ janik ];
             };
           };
-          devShell = pkgs.mkShell {
-            inherit (self.checks.${system}.pre-commit-check) shellHook;
-            buildInputs = with pkgs; [
-              python3.pkgs.requests
-            ];
-          };
-          formatter = pkgs.nixfmt-rfc-style;
-        }
-      ) // {
-      nixosModule = { config, lib, pkgs, ... }:
-        let cfg = config.services.first-time-contribution-tagger;
-        in {
+        devShell = pkgs.mkShell {
+          inherit (self.checks.${system}.pre-commit-check) shellHook;
+          buildInputs = with pkgs; [
+            python3.pkgs.requests
+          ];
+        };
+        formatter = pkgs.nixfmt-rfc-style;
+      }
+    )
+    // {
+      nixosModule =
+        {
+          config,
+          lib,
+          pkgs,
+          ...
+        }:
+        let
+          cfg = config.services.first-time-contribution-tagger;
+        in
+        {
           options.services.first-time-contribution-tagger = {
             enable = lib.mkEnableOption "Enables the first-time-contribution-tagger service";
             interval = lib.mkOption {
@@ -154,4 +171,3 @@
         };
     };
 }
-
