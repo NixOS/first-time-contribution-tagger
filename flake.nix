@@ -50,9 +50,8 @@
 
         devShells.default = pkgs.mkShell {
           inherit (self.checks.${system}.pre-commit-check) shellHook;
-          buildInputs = with pkgs; [
-            python3.pkgs.requests
-          ];
+
+          inputsFrom = [ self.packages.${system}.first-time-contribution-tagger ];
         };
 
         formatter = pkgs.nixfmt-rfc-style;
