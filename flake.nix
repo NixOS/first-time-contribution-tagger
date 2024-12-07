@@ -28,7 +28,6 @@
 
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        inherit (pkgs) python3Packages;
       in
 
       {
@@ -46,31 +45,7 @@
 
         packages = {
           default = self.packages.${system}.first-time-contribution-tagger;
-
-          first-time-contribution-tagger = python3Packages.buildPythonApplication {
-            pname = "first-time-contribution-tagger";
-            version = "0.1.1";
-            pyproject = true;
-
-            src = ./.;
-
-            nativeBuildInputs = [
-              python3Packages.poetry-core
-            ];
-
-            propagatedBuildInputs = [
-              python3Packages.requests
-            ];
-
-            nativeCheckInputs = [
-              python3Packages.pytestCheckHook
-            ];
-
-            meta = with pkgs.lib; {
-              license = licenses.agpl3Only;
-              maintainers = with maintainers; [ janik ];
-            };
-          };
+          first-time-contribution-tagger = pkgs.callPackage ./nix/package.nix { inherit self; };
         };
 
         devShells.default = pkgs.mkShell {
