@@ -11,11 +11,11 @@ python3Packages.buildPythonApplication {
 
   src = self;
 
-  nativeBuildInputs = [
+  build-system = [
     python3Packages.poetry-core
   ];
 
-  propagatedBuildInputs = [
+  dependencies = [
     python3Packages.requests
   ];
 
