@@ -29,6 +29,6 @@ python3Packages.buildPythonApplication rec {
 
   meta = {
     license = lib.licenses.agpl3Only;
-    maintainers = with lib.maintainers; [ janik ];
+    maintainers = [ ];
   };
 }
