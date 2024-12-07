@@ -4,9 +4,9 @@
   self,
 }:
 
-python3Packages.buildPythonApplication {
+python3Packages.buildPythonApplication rec {
   pname = "first-time-contribution-tagger";
-  version = "0.1.1";
+  inherit (passthru.pyprojectToml.tool.poetry) version;
   pyproject = true;
 
   src = self;
@@ -22,6 +22,10 @@ python3Packages.buildPythonApplication {
   nativeCheckInputs = [
     python3Packages.pytestCheckHook
   ];
+
+  passthru = {
+    pyprojectToml = lib.importTOML (self + "/pyproject.toml");
+  };
 
   meta = {
     license = lib.licenses.agpl3Only;
