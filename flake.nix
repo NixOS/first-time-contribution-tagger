@@ -128,7 +128,7 @@
                 UMask = "0007";
                 ConfigurationDirectory = "first-time-contribution-tagger";
                 EnvironmentFile = lib.optional (cfg.environmentFile != null) cfg.environmentFile;
-                ExecStart = "${self.defaultPackage.${pkgs.system}}/bin/first-time-contribution-tagger";
+                ExecStart = lib.getExe self.defaultPackage.${pkgs.system};
                 Restart = "on-failure";
                 RestartSec = 15;
                 CapabilityBoundingSet = "";

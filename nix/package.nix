@@ -30,5 +30,6 @@ python3Packages.buildPythonApplication rec {
   meta = {
     license = lib.licenses.agpl3Only;
     maintainers = [ ];
+    mainProgram = "first-time-contribution-tagger";
   };
 }
