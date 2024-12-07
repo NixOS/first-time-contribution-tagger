@@ -52,6 +52,14 @@
           inherit (self.checks.${system}.pre-commit-check) shellHook;
 
           inputsFrom = [ self.packages.${system}.first-time-contribution-tagger ];
+
+          packages = [
+            pkgs.black
+            pkgs.isort
+            pkgs.poetry
+            pkgs.python3Packages.flake8
+            self.formatter.${system}
+          ];
         };
 
         formatter = pkgs.nixfmt-rfc-style;
