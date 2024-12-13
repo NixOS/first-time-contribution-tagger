@@ -11,15 +11,16 @@ let
 
   cfg = config.services.first-time-contribution-tagger;
 
-  package =
-    (self.packages.${system}
-      or (throw "first-time-contribution-tagger: ${system} is not supported by our Flake!")
-    ).first-time-contribution-tagger;
+  flakePackages =
+    self.packages.${system}
+      or (throw "first-time-contribution-tagger: ${system} is not supported by our Flake!");
 in
 
 {
   options.services.first-time-contribution-tagger = {
     enable = lib.mkEnableOption "Enables the first-time-contribution-tagger service";
+
+    package = lib.mkPackageOption flakePackages "first-time-contribution-tagger" { };
 
     environment = lib.mkOption {
       default = { };
@@ -74,7 +75,7 @@ in
         UMask = "0007";
         ConfigurationDirectory = "first-time-contribution-tagger";
         EnvironmentFile = lib.optional (cfg.environmentFile != null) cfg.environmentFile;
-        ExecStart = lib.getExe package;
+        ExecStart = lib.getExe cfg.package;
         Restart = "on-failure";
         RestartSec = 15;
         CapabilityBoundingSet = "";
