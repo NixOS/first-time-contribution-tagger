@@ -6,7 +6,7 @@ This repository also contains a Nix flake. It can be used in a NixOS configurati
 1. Add flake to inputs:
 ```nix
 first-time-contribution-tagger = {
-    url = "github:Janik-Haag/first-time-contribution-tagger";
+    url = "github:NixOS/first-time-contribution-tagger";
     inputs.nixpkgs.follows = "nixpkgs"; #optional
 }
 ```
@@ -36,7 +36,7 @@ imports = [ first-time-contribution-tagger.nixosModule ];
 ```
 
 5. Adding the cache
-If you go to the [releases page](https://github.com/Janik-Haag/first-time-contribution-tagger/releases) you will find two .pickle files, copy both of them to your specified cache directory. If the directory doesn't exist just create it. Then set the permissions, f.e. `chmod -R 666 $FIRST_TIME_CONTRIBUTION_CACHE`
+If you go to the [releases page](https://github.com/NixOS/first-time-contribution-tagger/releases) you will find two .pickle files, copy both of them to your specified cache directory. If the directory doesn't exist just create it. Then set the permissions, f.e. `chmod -R 666 $FIRST_TIME_CONTRIBUTION_CACHE`
 
 6. Rebuild your system config
 ```sh

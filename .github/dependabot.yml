@@ -9,3 +9,16 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+    group:
+      all-versions:
+        applies-to: "version-updates"
+        update-types:
+          - "major"
+          - "minor"
+          - "patch"

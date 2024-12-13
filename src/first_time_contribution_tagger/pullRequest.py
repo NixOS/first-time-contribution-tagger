@@ -91,9 +91,9 @@ class PullRequest:
             req = cls.graphqlQuery(body, githubToken)
             if req.json()["data"]["repository"]["pullRequests"]["pageInfo"]["hasNextPage"]:
                 for pr in req.json()["data"]["repository"]["pullRequests"]["nodes"]:
-                    filterd_output = cls.filterGraphqlOutput(pr)
-                    new_pr = filterd_output.number
-                    new_prs.append(filterd_output)
+                    filtered_output = cls.filterGraphqlOutput(pr)
+                    new_pr = filtered_output.number
+                    new_prs.append(filtered_output)
                 page = f"after: \"{req.json()['data']['repository']['pullRequests']['pageInfo']['endCursor']}\""
                 print(f"getting new prs: {new_pr}")
             else:
