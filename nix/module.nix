@@ -33,14 +33,14 @@ in
           FIRST_TIME_CONTRIBUTION_ORG="NixOS";
         }
       '';
-      description = lib.mdDoc "config environment variables, for other options read the [documentation](https://github.com/janik-Haag/first-time-contribution-tagger)";
+      description = "config environment variables, for other options read the [documentation](https://github.com/janik-Haag/first-time-contribution-tagger)";
     };
 
     environmentFile = lib.mkOption {
       type = lib.types.nullOr lib.types.path;
       default = null;
       example = "/root/first-time-contribution-tagger.env";
-      description = lib.mdDoc ''
+      description = ''
         File to load environment variables
         from. This is helpful for specifying secrets.
         Example content of environmentFile:
@@ -55,7 +55,7 @@ in
       default = "*:0/10";
       type = lib.types.str;
       example = lib.literalExpression "*:0/10";
-      description = lib.mdDoc "systemd-timer OnCalendar config, the above example starts the unit every 10 minutes";
+      description = "systemd-timer OnCalendar config, the above example starts the unit every 10 minutes";
     };
   };
 
