@@ -1,27 +1,24 @@
 {
   lib,
-  python3Packages,
+  buildPythonApplication,
+  poetry-core,
+  pytestCheckHook,
+  requests,
   self,
 }:
 
-python3Packages.buildPythonApplication rec {
+buildPythonApplication rec {
   pname = "first-time-contribution-tagger";
   inherit (passthru.pyprojectToml.tool.poetry) version;
   pyproject = true;
 
   src = self;
 
-  build-system = [
-    python3Packages.poetry-core
-  ];
+  build-system = [ poetry-core ];
 
-  dependencies = [
-    python3Packages.requests
-  ];
+  dependencies = [ requests ];
 
-  nativeCheckInputs = [
-    python3Packages.pytestCheckHook
-  ];
+  nativeCheckInputs = [ pytestCheckHook ];
 
   passthru = {
     pyprojectToml = lib.importTOML (self + "/pyproject.toml");

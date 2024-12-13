@@ -45,7 +45,9 @@
 
         packages = {
           default = self.packages.${system}.first-time-contribution-tagger;
-          first-time-contribution-tagger = pkgs.callPackage ./nix/package.nix { inherit self; };
+          first-time-contribution-tagger = pkgs.python3Packages.callPackage ./nix/package.nix {
+            inherit self;
+          };
         };
 
         devShells.default = pkgs.mkShell {
