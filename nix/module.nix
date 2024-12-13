@@ -33,7 +33,7 @@ in
           FIRST_TIME_CONTRIBUTION_ORG="NixOS";
         }
       '';
-      description = "config environment variables, for other options read the [documentation](https://github.com/janik-Haag/first-time-contribution-tagger)";
+      description = "config environment variables, for other options read the [documentation](https://github.com/NixOS/first-time-contribution-tagger)";
     };
 
     environmentFile = lib.mkOption {
