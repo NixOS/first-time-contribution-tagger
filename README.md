@@ -1,6 +1,9 @@
 # first-time-contribution-tagger
 Tags PRs of first time contributors in a GitHub repo with a pre specified label and has builtin caching.
 
+> [!WARNING]
+> This implementation is now archived as it has has been replaced by https://github.com/NixOS/nixpkgs/pull/417916.
+
 ## Usage
 This repository also contains a Nix flake. It can be used in a NixOS configuration like this:
 1. Add flake to inputs:
