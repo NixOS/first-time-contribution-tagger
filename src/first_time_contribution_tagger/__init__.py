@@ -40,7 +40,7 @@ class FirstTimeContributionTagger:
                 print("DEBUG: cached prs loaded successfully")
             else:
                 print("DEBUG: no cached prs loaded, file not found")
-            # Load chached authors
+            # Load cached authors
             cached_authors = f"{self.settings.cache}/authors.pickle"
             if os.path.isfile(cached_authors):
                 with open(cached_authors, "rb") as file:
@@ -75,7 +75,7 @@ class FirstTimeContributionTagger:
                     labelsNeeded.append(pr)
                 else:
                     break
-            # reverse back to tag old prs first and don't fuck up new contribs that opend two prs
+            # reverse back to tag old prs first and don't fuck up new contribs that opened two prs
             labelsNeeded[::-1]
         # now add labels to the new prs
         for pr in labelsNeeded:

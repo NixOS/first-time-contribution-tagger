@@ -7,8 +7,8 @@ def test_filterGraphqlOutput():
         "author": {"login": "some-valid-github-user-name"},
         "labels": {"nodes": [{"name": " 0.kind: bug "}]},
     }
-    expectd = PullRequest(number=10, author="some-valid-github-user-name", labels=[" 0.kind: bug "])
+    expected = PullRequest(number=10, author="some-valid-github-user-name", labels=[" 0.kind: bug "])
     test = PullRequest.filterGraphqlOutput(input)
-    assert test.number == expectd.number
-    assert test.author == expectd.author
-    assert test.labels == expectd.labels
+    assert test.number == expected.number
+    assert test.author == expected.author
+    assert test.labels == expected.labels
